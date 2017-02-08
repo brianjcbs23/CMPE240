@@ -12,22 +12,26 @@
 // ....beware compiler optimization....
 void delay(uint32_t count)
 {
-	
+	while (count){
+		count--;
+	}
 }
 
 int main()
 {
-	// Select output mode and which pin to drive
-        
+	gpio[GPFSEL2] = 0x1000;
+	
+	//gpio[GPSET0] |= 0x40000;
+	//gpio[GPCLR0] |= 0x40000;
     while (1)
     {       
-        //toggle clear register for the chosen pin
+        gpio[GPSET0] |= 1 << 23;
         
-        //apply a delay
+        delay(375000);
         
-        //toggle set register for the chosen pin
+        gpio[GPCLR0] |= 1 << 23;
         
-        //apply a delay
+        delay(375000);
     }
     
     return 0;
