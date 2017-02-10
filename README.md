@@ -5,7 +5,7 @@ The labs in CMPE 240 are run on a Raspberry Pi 3 and each Makefile for each lab 
 
 ## OS Boot and Initial Lab Setup
 1. Download and unzip Raspbian Jessie latest in a temporary location
-2. Plug the microSD car reader into your machine and insert the microSD card
+2. Plug the microSD card reader into your machine and insert the microSD card
 3. Image the mircoSD card with the Raspian image
 4. Eject the microSD card and insert it into the microSD port on the Pi 3
 5. Connect your monitor to the HDMI port on the Pi 3
