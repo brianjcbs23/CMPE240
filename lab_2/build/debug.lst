@@ -1,0 +1,129 @@
+   1              		.arch armv7-a
+   2              		.eabi_attribute 27, 3
+   3              		.eabi_attribute 28, 1
+   4              		.fpu neon-vfpv4
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 2
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"debug.c"
+  15              		.text
+  16              		.align	2
+  17              		.global	digit_to_char
+  19              	digit_to_char:
+  20              		@ args = 0, pretend = 0, frame = 0
+  21              		@ frame_needed = 0, uses_anonymous_args = 0
+  22              		@ link register save eliminated.
+  23 0000 090050E3 		cmp	r0, #9
+  24 0004 CD3C0C83 		movwhi	r3, #52429
+  25 0008 CC3C4C83 		movthi	r3, 52428
+  26 000c 93208380 		umullhi	r2, r3, r3, r0
+  27 0010 A331A081 		movhi	r3, r3, lsr #3
+  28 0014 03318380 		addhi	r3, r3, r3, asl #2
+  29 0018 83004080 		subhi	r0, r0, r3, asl #1
+  30 001c 30008092 		addls	r0, r0, #48
+  31 0020 41008082 		addhi	r0, r0, #65
+  32 0024 7000EFE6 		uxtb	r0, r0
+  33 0028 1EFF2FE1 		bx	lr
+  35              		.global	__aeabi_uidivmod
+  36              		.global	__aeabi_uidiv
+  37              		.align	2
+  38              		.global	convert
+  40              	convert:
+  41              		@ args = 0, pretend = 0, frame = 0
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43 002c F84F2DE9 		stmfd	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, lr}
+  44 0030 00B051E2 		subs	fp, r1, #0
+  45 0034 00A0A0E1 		mov	sl, r0
+  46 0038 0280A0E1 		mov	r8, r2
+  47 003c 2800000A 		beq	.L5
+  48 0040 CD9C0CE3 		movw	r9, #52429
+  49 0044 0250A0E1 		mov	r5, r2
+  50 0048 0060A0E3 		mov	r6, #0
+  51 004c CC9C4CE3 		movt	r9, 52428
+  52              	.L8:
+  53 0050 0B00A0E1 		mov	r0, fp
+  54 0054 0A10A0E1 		mov	r1, sl
+  55 0058 FEFFFFEB 		bl	__aeabi_uidivmod
+  56 005c 7110EFE6 		uxtb	r1, r1
+  57 0060 090051E3 		cmp	r1, #9
+  58 0064 99218380 		umullhi	r2, r3, r9, r1
+  59 0068 A331A081 		movhi	r3, r3, lsr #3
+  60 006c 03318380 		addhi	r3, r3, r3, asl #2
+  61 0070 83404180 		subhi	r4, r1, r3, asl #1
+  62 0074 30408192 		addls	r4, r1, #48
+  63 0078 41408482 		addhi	r4, r4, #65
+  64 007c 7440EFE6 		uxtb	r4, r4
+  65 0080 0B00A0E1 		mov	r0, fp
+  66 0084 0570A0E1 		mov	r7, r5
+  67 0088 0A10A0E1 		mov	r1, sl
+  68 008c 0140C5E4 		strb	r4, [r5], #1
+  69 0090 FEFFFFEB 		bl	__aeabi_uidiv
+  70 0094 00B050E2 		subs	fp, r0, #0
+  71 0098 016086E2 		add	r6, r6, #1
+  72 009c EBFFFF1A 		bne	.L8
+  73 00a0 070058E1 		cmp	r8, r7
+  74 00a4 01308832 		addcc	r3, r8, #1
+  75 00a8 01104732 		subcc	r1, r7, #1
+  76 00ac 0100003A 		bcc	.L12
+  77 00b0 070000EA 		b	.L11
+  78              	.L15:
+  79 00b4 014077E5 		ldrb	r4, [r7, #-1]!	@ zero_extendqisi2
+  80              	.L12:
+  81 00b8 012053E5 		ldrb	r2, [r3, #-1]	@ zero_extendqisi2
+  82 00bc 010053E1 		cmp	r3, r1
+  83 00c0 014043E5 		strb	r4, [r3, #-1]
+  84 00c4 0120C1E5 		strb	r2, [r1, #1]
+  85 00c8 013083E2 		add	r3, r3, #1
+  86 00cc 011041E2 		sub	r1, r1, #1
+  87 00d0 F7FFFF3A 		bcc	.L15
+  88              	.L11:
+  89 00d4 0030A0E3 		mov	r3, #0
+  90 00d8 0630C8E7 		strb	r3, [r8, r6]
+  91 00dc 0800A0E1 		mov	r0, r8
+  92 00e0 F88FBDE8 		ldmfd	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
+  93              	.L5:
+  94 00e4 3030A0E3 		mov	r3, #48
+  95 00e8 0030C2E5 		strb	r3, [r2, #0]
+  96 00ec 01B0C2E5 		strb	fp, [r2, #1]
+  97 00f0 0800A0E1 		mov	r0, r8
+  98 00f4 F88FBDE8 		ldmfd	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 100              		.align	2
+ 101              		.global	to_binary_str
+ 103              	to_binary_str:
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107 00f8 0030A0E1 		mov	r3, r0
+ 108 00fc 0120A0E1 		mov	r2, r1
+ 109 0100 0200A0E3 		mov	r0, #2
+ 110 0104 0310A0E1 		mov	r1, r3
+ 111 0108 FEFFFFEA 		b	convert
+ 113              		.align	2
+ 114              		.global	to_hex_str
+ 116              	to_hex_str:
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		@ link register save eliminated.
+ 120 010c 0030A0E1 		mov	r3, r0
+ 121 0110 0120A0E1 		mov	r2, r1
+ 122 0114 1000A0E3 		mov	r0, #16
+ 123 0118 0310A0E1 		mov	r1, r3
+ 124 011c FEFFFFEA 		b	convert
+ 126              		.align	2
+ 127              		.global	to_decimal_str
+ 129              	to_decimal_str:
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              		@ link register save eliminated.
+ 133 0120 0030A0E1 		mov	r3, r0
+ 134 0124 0120A0E1 		mov	r2, r1
+ 135 0128 0A00A0E3 		mov	r0, #10
+ 136 012c 0310A0E1 		mov	r1, r3
+ 137 0130 FEFFFFEA 		b	convert
+ 139              		.ident	"GCC: (GNU) 4.7.2"
