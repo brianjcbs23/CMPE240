@@ -20,31 +20,21 @@
   21              		@ frame_needed = 0, uses_anonymous_args = 0
   22 0000 08402DE9 		stmfd	sp!, {r3, lr}
   23 0004 FEFFFFEB 		bl	init_uart
-  24 0008 2C009FE5 		ldr	r0, .L4
-  25 000c FEFFFFEB 		bl	put_string
-  26 0010 24009FE5 		ldr	r0, .L4
-  27 0014 FEFFFFEB 		bl	put_string
-  28 0018 1C009FE5 		ldr	r0, .L4
-  29 001c FEFFFFEB 		bl	put_string
-  30 0020 14009FE5 		ldr	r0, .L4
-  31 0024 FEFFFFEB 		bl	put_string
-  32 0028 0C009FE5 		ldr	r0, .L4
-  33 002c FEFFFFEB 		bl	put_string
-  34 0030 04009FE5 		ldr	r0, .L4
-  35 0034 FEFFFFEB 		bl	put_string
-  36              	.L2:
-  37 0038 FEFFFFEA 		b	.L2
-  38              	.L5:
-  39              		.align	2
-  40              	.L4:
-  41 003c 00000000 		.word	.LANCHOR0
-  43              		.section	.rodata
-  44              		.align	2
-  45              		.set	.LANCHOR0,. + 0
-  46              	.LC0:
-  47 0000 48656C6C 		.ascii	"Hello, World!\015\012\000\000"
-  47      6F2C2057 
-  47      6F726C64 
-  47      210D0A00 
-  47      00
-  48 0011 000000   		.ident	"GCC: (GNU) 4.7.2"
+  24              	.L2:
+  25 0008 04009FE5 		ldr	r0, .L4
+  26 000c FEFFFFEB 		bl	put_string
+  27 0010 FCFFFFEA 		b	.L2
+  28              	.L5:
+  29              		.align	2
+  30              	.L4:
+  31 0014 00000000 		.word	.LANCHOR0
+  33              		.section	.rodata
+  34              		.align	2
+  35              		.set	.LANCHOR0,. + 0
+  36              	.LC0:
+  37 0000 48656C6C 		.ascii	"Hello, World!\015\012\000\000"
+  37      6F2C2057 
+  37      6F726C64 
+  37      210D0A00 
+  37      00
+  38 0011 000000   		.ident	"GCC: (GNU) 4.7.2"
