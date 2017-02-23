@@ -141,7 +141,7 @@ void init_uart()
 	*/
 	
     //Enable FIFOs and set word length by shifting in '1's
-    uart[UART0_LCRH] |= (0x4) | (0x60);
+    uart[UART0_LCRH] |= (1 << 4) | (1 << 5) | (1 << 6);
 
     // Mask all interrupts
     uart[UART0_IMSC] |= (
@@ -156,7 +156,7 @@ void init_uart()
 	*/
 	
     // Enable Receive, Enable Tx, Enable UART.
-    uart[UART0_CR] |= ((1 << 9) | (1 << 8) | (0x1));
+    uart[UART0_CR] |= ((1 << 9) | (1 << 8) | (1 << 0));
 }
 
 /// Gets a single character from the UART port.
@@ -185,7 +185,7 @@ extern void put_char(char c)
 	
 	// <<Write the character to the data register here.>>
 	
-	uart[UART0_DR] = (uart[UART0_DR] & 0x00) | c;
+	uart[UART0_DR] = c;
 }
 
 /// Reads the string from uart.  It reads until either
@@ -256,6 +256,6 @@ extern void put_string(const char* str)
         }
     }
     // << INSERT POLLING FUNCTION CALL HERE>>
-	wait_for_tx_slot();
+	wait_for_uart_idle();
 	
 }

@@ -137,7 +137,7 @@
  148 0130 0130A0E3 		mov	r3, #1
  149 0134 283082E5 		str	r3, [r2, #40]
  150 0138 2C3092E5 		ldr	r3, [r2, #44]
- 151 013c 643083E3 		orr	r3, r3, #100
+ 151 013c 703083E3 		orr	r3, r3, #112
  152 0140 2C3082E5 		str	r3, [r2, #44]
  153 0144 383092E5 		ldr	r3, [r2, #56]
  154 0148 7F3E83E3 		orr	r3, r3, #2032
@@ -187,90 +187,106 @@
  202 01b8 FDFFFF1A 		bne	.L41
  203 01bc 013AA0E3 		mov	r3, #4096
  204 01c0 203F43E3 		movt	r3, 16160
- 205 01c4 002093E5 		ldr	r2, [r3, #0]
- 206 01c8 000083E5 		str	r0, [r3, #0]
- 207 01cc 1EFF2FE1 		bx	lr
- 209              		.align	2
- 210              		.global	put_string
- 212              	put_string:
- 213              		@ args = 0, pretend = 0, frame = 0
- 214              		@ frame_needed = 0, uses_anonymous_args = 0
- 215 01d0 10402DE9 		stmfd	sp!, {r4, lr}
- 216 01d4 0040A0E1 		mov	r4, r0
- 217 01d8 0000D0E5 		ldrb	r0, [r0, #0]	@ zero_extendqisi2
- 218 01dc 000050E3 		cmp	r0, #0
- 219 01e0 0300000A 		beq	.L49
- 220              	.L50:
- 221 01e4 FEFFFFEB 		bl	put_char
- 222 01e8 0100F4E5 		ldrb	r0, [r4, #1]!	@ zero_extendqisi2
- 223 01ec 000050E3 		cmp	r0, #0
- 224 01f0 FBFFFF1A 		bne	.L50
- 225              	.L49:
- 226 01f4 012AA0E3 		mov	r2, #4096
- 227 01f8 202F43E3 		movt	r2, 16160
- 228              	.L52:
- 229 01fc 183092E5 		ldr	r3, [r2, #24]
- 230 0200 200013E3 		tst	r3, #32
- 231 0204 FCFFFF1A 		bne	.L52
- 232 0208 1080BDE8 		ldmfd	sp!, {r4, pc}
- 234              		.align	2
- 235              		.global	get_string
- 237              	get_string:
- 238              		@ args = 0, pretend = 0, frame = 0
- 239              		@ frame_needed = 0, uses_anonymous_args = 0
- 240 020c F0412DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, lr}
- 241 0210 0050A0E3 		mov	r5, #0
- 242 0214 014AA0E3 		mov	r4, #4096
- 243 0218 0080A0E1 		mov	r8, r0
- 244 021c 017041E2 		sub	r7, r1, #1
- 245 0220 0560A0E1 		mov	r6, r5
- 246 0224 204F43E3 		movt	r4, 16160
- 247              	.L72:
- 248 0228 070056E1 		cmp	r6, r7
- 249 022c 1500002A 		bcs	.L66
- 250              	.L78:
- 251 0230 0D0055E3 		cmp	r5, #13
- 252 0234 0A005513 		cmpne	r5, #10
- 253 0238 1200000A 		beq	.L66
- 254              	.L68:
- 255 023c 183094E5 		ldr	r3, [r4, #24]
- 256 0240 100013E3 		tst	r3, #16
- 257 0244 FCFFFF1A 		bne	.L68
- 258 0248 9630A0E3 		mov	r3, #150
- 259              	.L59:
- 260 024c 013053E2 		subs	r3, r3, #1
- 261 0250 FDFFFF1A 		bne	.L59
- 262 0254 005094E5 		ldr	r5, [r4, #0]
- 263 0258 7550EFE6 		uxtb	r5, r5
- 264 025c 0D0055E3 		cmp	r5, #13
- 265 0260 0A005513 		cmpne	r5, #10
- 266 0264 0B00001A 		bne	.L77
- 267 0268 0D0055E3 		cmp	r5, #13
- 268 026c 0100000A 		beq	.L76
- 269 0270 0A0055E3 		cmp	r5, #10
- 270 0274 EBFFFF1A 		bne	.L72
- 271              	.L76:
- 272 0278 2C009FE5 		ldr	r0, .L79
- 273 027c FEFFFFEB 		bl	put_string
- 274 0280 070056E1 		cmp	r6, r7
- 275 0284 E9FFFF3A 		bcc	.L78
- 276              	.L66:
- 277 0288 0030A0E3 		mov	r3, #0
- 278 028c 0630C8E7 		strb	r3, [r8, r6]
- 279 0290 0600A0E1 		mov	r0, r6
- 280 0294 F081BDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, pc}
- 281              	.L77:
- 282 0298 0500A0E1 		mov	r0, r5
- 283 029c FEFFFFEB 		bl	put_char
- 284 02a0 0650C8E7 		strb	r5, [r8, r6]
- 285 02a4 016086E2 		add	r6, r6, #1
- 286 02a8 DEFFFFEA 		b	.L72
- 287              	.L80:
- 288              		.align	2
- 289              	.L79:
- 290 02ac 00000000 		.word	.LC0
- 292              		.section	.rodata.str1.4,"aMS",%progbits,1
- 293              		.align	2
- 294              	.LC0:
- 295 0000 0D0A00   		.ascii	"\015\012\000"
- 296 0003 00       		.ident	"GCC: (GNU) 4.7.2"
+ 205 01c4 000083E5 		str	r0, [r3, #0]
+ 206 01c8 1EFF2FE1 		bx	lr
+ 208              		.align	2
+ 209              		.global	put_string
+ 211              	put_string:
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214              		@ link register save eliminated.
+ 215 01cc 0010D0E5 		ldrb	r1, [r0, #0]	@ zero_extendqisi2
+ 216 01d0 000051E3 		cmp	r1, #0
+ 217 01d4 0D00000A 		beq	.L49
+ 218 01d8 012AA0E3 		mov	r2, #4096
+ 219 01dc 00C0A0E3 		mov	ip, #0
+ 220 01e0 202F43E3 		movt	r2, 16160
+ 221              	.L60:
+ 222 01e4 183092E5 		ldr	r3, [r2, #24]
+ 223 01e8 200013E3 		tst	r3, #32
+ 224 01ec 9630A003 		moveq	r3, #150
+ 225 01f0 FBFFFF1A 		bne	.L60
+ 226              	.L51:
+ 227 01f4 013053E2 		subs	r3, r3, #1
+ 228 01f8 FDFFFF1A 		bne	.L51
+ 229 01fc 001082E5 		str	r1, [r2, #0]
+ 230 0200 01C08CE2 		add	ip, ip, #1
+ 231 0204 0C10D0E7 		ldrb	r1, [r0, ip]	@ zero_extendqisi2
+ 232 0208 000051E3 		cmp	r1, #0
+ 233 020c F4FFFF1A 		bne	.L60
+ 234              	.L49:
+ 235 0210 012AA0E3 		mov	r2, #4096
+ 236 0214 202F43E3 		movt	r2, 16160
+ 237              	.L56:
+ 238 0218 183092E5 		ldr	r3, [r2, #24]
+ 239 021c 080013E3 		tst	r3, #8
+ 240 0220 FCFFFF1A 		bne	.L56
+ 241 0224 1EFF2FE1 		bx	lr
+ 243              		.align	2
+ 244              		.global	get_string
+ 246              	get_string:
+ 247              		@ args = 0, pretend = 0, frame = 0
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+ 249 0228 F0412DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, lr}
+ 250 022c 0050A0E3 		mov	r5, #0
+ 251 0230 014AA0E3 		mov	r4, #4096
+ 252 0234 0080A0E1 		mov	r8, r0
+ 253 0238 017041E2 		sub	r7, r1, #1
+ 254 023c 0560A0E1 		mov	r6, r5
+ 255 0240 204F43E3 		movt	r4, 16160
+ 256              	.L83:
+ 257 0244 070056E1 		cmp	r6, r7
+ 258 0248 1600002A 		bcs	.L74
+ 259              	.L89:
+ 260 024c 0D0055E3 		cmp	r5, #13
+ 261 0250 0A005513 		cmpne	r5, #10
+ 262 0254 1300000A 		beq	.L74
+ 263              	.L77:
+ 264 0258 183094E5 		ldr	r3, [r4, #24]
+ 265 025c 100013E3 		tst	r3, #16
+ 266 0260 FCFFFF1A 		bne	.L77
+ 267 0264 9630A0E3 		mov	r3, #150
+ 268              	.L65:
+ 269 0268 013053E2 		subs	r3, r3, #1
+ 270 026c FDFFFF1A 		bne	.L65
+ 271 0270 005094E5 		ldr	r5, [r4, #0]
+ 272 0274 7550EFE6 		uxtb	r5, r5
+ 273 0278 0D0055E3 		cmp	r5, #13
+ 274 027c 0A005513 		cmpne	r5, #10
+ 275 0280 0520A0E1 		mov	r2, r5
+ 276 0284 0B00001A 		bne	.L76
+ 277 0288 0D0055E3 		cmp	r5, #13
+ 278 028c 0100000A 		beq	.L88
+ 279 0290 0A0055E3 		cmp	r5, #10
+ 280 0294 EAFFFF1A 		bne	.L83
+ 281              	.L88:
+ 282 0298 40009FE5 		ldr	r0, .L90
+ 283 029c FEFFFFEB 		bl	put_string
+ 284 02a0 070056E1 		cmp	r6, r7
+ 285 02a4 E8FFFF3A 		bcc	.L89
+ 286              	.L74:
+ 287 02a8 0030A0E3 		mov	r3, #0
+ 288 02ac 0630C8E7 		strb	r3, [r8, r6]
+ 289 02b0 0600A0E1 		mov	r0, r6
+ 290 02b4 F081BDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, pc}
+ 291              	.L76:
+ 292 02b8 183094E5 		ldr	r3, [r4, #24]
+ 293 02bc 200013E3 		tst	r3, #32
+ 294 02c0 FCFFFF1A 		bne	.L76
+ 295 02c4 9630A0E3 		mov	r3, #150
+ 296              	.L69:
+ 297 02c8 013053E2 		subs	r3, r3, #1
+ 298 02cc FDFFFF1A 		bne	.L69
+ 299 02d0 002084E5 		str	r2, [r4, #0]
+ 300 02d4 0620C8E7 		strb	r2, [r8, r6]
+ 301 02d8 016086E2 		add	r6, r6, #1
+ 302 02dc D8FFFFEA 		b	.L83
+ 303              	.L91:
+ 304              		.align	2
+ 305              	.L90:
+ 306 02e0 00000000 		.word	.LC0
+ 308              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 309              		.align	2
+ 310              	.LC0:
+ 311 0000 0D0A00   		.ascii	"\015\012\000"
+ 312 0003 00       		.ident	"GCC: (GNU) 4.7.2"
