@@ -4,9 +4,13 @@
 
 void blink_once()
 {
-    // Turn on LED
+    gpio[GPSET0] |= 1 << 23;
 
-    // Turn off LED
+	timer_delay_ms(500);
+
+	gpio[GPCLR0] |= 1 << 23;
+
+	timer_delay_ms(500);
 
 }
 
@@ -15,32 +19,42 @@ void blink_code(uint32_t err)
     for(int i = 0; i < err; ++i)
     {
         // Blink the LED
+		blink_once();
 
     }
 
     // Delay for desired time
+	timer_delay_sec(5);
     
 }
 
 int main()
 {
     // Init GPIO select for external LED
+	gpio[GPFSEL2] = 0x1000;
 
     // Init uart for debugging purposes
+	init_uart();
 
     // Provide a buffer size for debug prints
 
     // You might need a count for something
-    uint32_t count = 1;
+    uint32_t blink_count = 1;
+
+	put_string("Running\n\0");
 
     // Mainline loop
     while (1)
     {
         // implement error code described in lab
-
-        // call blink_code at some point
-        blink_code(     );
-
+		if(blink_count <= 10){
+			put_string("Blink\n\0");
+			blink_code(blink_count);
+			blink_count++;
+		}
+		else{
+			blink_count = 1;
+		}
     }
     
     return 0;

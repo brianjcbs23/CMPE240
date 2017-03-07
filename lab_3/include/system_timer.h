@@ -29,8 +29,8 @@ static volatile uintptr_t *sys_timer = (uintptr_t*) SYSTEM_TIMER_ADDR;
 // | 31:4 | Unused |
 // | 3    | M3, 1 is timer 3 match detected, 0 is none since last cleared |
 // | 2    | M2, 1 is timer 2 match detected, 0 is none since last cleared |
-// | 1    | M1, 1 is timer 2 match detected, 0 is none since last cleared |
-// | 0    | M0, 1 is timer 2 match detected, 0 is none since last cleared |
+// | 1    | M1, 1 is timer 1 match detected, 0 is none since last cleared |
+// | 0    | M0, 1 is timer 0 match detected, 0 is none since last cleared |
 // Write a 1 to any of the MX bits to clear the corresponding interrupt request line.
 // Offset: 0x00.
 #define SYS_TIMER_CS 0
