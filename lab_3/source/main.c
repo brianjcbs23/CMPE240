@@ -12,6 +12,8 @@ void blink_once()
 
 	timer_delay_ms(500);
 
+	put_string("Blink\n\0");
+
 }
 
 void blink_code(uint32_t err)
@@ -46,9 +48,9 @@ int main()
     // Mainline loop
     while (1)
     {
+		put_string("Blink sequence\n\0");
         // implement error code described in lab
 		if(blink_count <= 10){
-			put_string("Blink\n\0");
 			blink_code(blink_count);
 			blink_count++;
 		}
