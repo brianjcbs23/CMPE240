@@ -9,8 +9,8 @@
 
 # Replace with the path to your yagarto install directory.
 # Note: Any paths with spaces in it must have quotes around them, like below:
-PREFIX ?= "/C/yagarto-20121222"
-# PREFIX ?= "/C/Linaro/gcc-linaro-5.3-2016.02-i686-mingw32_arm-eabi"
+PREFIX ?= "C:/yagarto-20121222"
+#PREFIX ?= "/C/Linaro/gcc-linaro-5.3-2016.02-i686-mingw32_arm-eabi"
 ARMGNU ?= $(PREFIX)/bin/arm-none-eabi
 
 # Uncomment to create a C assembler listing
@@ -67,10 +67,10 @@ BASEFLAGS   += -nostartfiles -ffreestanding -nodefaultlibs
 # BASEFLAGS   += -O2 -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s -DPI2
 
 # Pi 2 compile flags
-BASEFLAGS += -O2 -mfpu=neon-vfpv4 -mfloat-abi=hard -march=armv7-a -mtune=cortex-a7  -DPI2
+BASEFLAGS += -O0 -mfpu=neon-vfpv4 -mfloat-abi=hard -march=armv7-a -mtune=cortex-a7  -DPI2
 
 # Pi 3 compile flags
-# BASEFLAGS   += -O2 -march=armv8-a -mtune=cortex-a53 -DPI2
+#BASEFLAGS   += -O2 -march=armv8-a -mtune=cortex-a53 -DPI2
 
 # DEBUG MODE
 # BASEFLAGS += -DDBG
