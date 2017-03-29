@@ -1,0 +1,107 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x00008000         0x00018000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/boot.o
+LOAD build/gpio.o
+LOAD build/main.o
+LOAD build/system_timer.o
+LOAD build/uart.o
+
+.text           0x00008000      0x7c8
+ *(.text*)
+ .text          0x00008000        0xc build/boot.o
+                0x00008000                _start
+ .text          0x0000800c       0xdc build/gpio.o
+                0x0000800c                convert_pin_to_gpio
+                0x00008064                convert_gpio_to_pin
+                0x000080bc                mmio_write
+ .text          0x000080e8      0x144 build/main.o
+                0x000080e8                blink_once
+                0x00008168                blink_code
+                0x000081b4                main
+ .text          0x0000822c       0xf8 build/system_timer.o
+                0x0000822c                timer_delay_us
+                0x000082cc                timer_delay_ms
+                0x000082f8                timer_delay_sec
+ .text          0x00008324      0x4a4 build/uart.o
+                0x00008324                wait_for_tx_slot
+                0x0000835c                wait_for_uart_idle
+                0x00008394                wait_for_rx_slot
+                0x000083cc                wait_for_rx_has_char
+                0x00008404                delay
+                0x0000843c                init_uart
+                0x000085e4                get_char
+                0x00008614                put_char
+                0x00008650                get_string
+                0x00008750                put_string
+
+.glue_7         0x000087c8        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x000087c8        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x000087c8        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x000087c8        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x000087c8        0x0
+ .iplt          0x00000000        0x0 build/boot.o
+
+.bss            0x000087c8        0x0
+ *(.bss*)
+ .bss           0x000087c8        0x0 build/boot.o
+ .bss           0x000087c8        0x0 build/gpio.o
+ .bss           0x000087c8        0x0 build/main.o
+ .bss           0x000087c8        0x0 build/system_timer.o
+ .bss           0x000087c8        0x0 build/uart.o
+
+.rodata         0x000087c8       0x2c
+ *(.rodata*)
+ .rodata        0x000087c8       0x28 build/main.o
+ .rodata        0x000087f0        0x4 build/uart.o
+
+.rel.dyn        0x000087f4        0x0
+ .rel.iplt      0x00000000        0x0 build/boot.o
+
+.data           0x000087f4       0x60
+ *(.data*)
+ .data          0x000087f4        0x0 build/boot.o
+ .data          0x000087f4       0x48 build/gpio.o
+                0x000087f8                pin_to_gpio_array
+                0x00008820                gpio_to_pin_array
+ .data          0x0000883c        0xc build/main.o
+ .data          0x00008848        0x4 build/system_timer.o
+ .data          0x0000884c        0x8 build/uart.o
+OUTPUT(build/output.elf elf32-littlearm)
+
+.igot.plt       0x00008854        0x0
+ .igot.plt      0x00000000        0x0 build/boot.o
+
+.ARM.attributes
+                0x00000000       0x33
+ .ARM.attributes
+                0x00000000       0x14 build/boot.o
+ .ARM.attributes
+                0x00000014       0x37 build/gpio.o
+ .ARM.attributes
+                0x0000004b       0x37 build/main.o
+ .ARM.attributes
+                0x00000082       0x37 build/system_timer.o
+ .ARM.attributes
+                0x000000b9       0x37 build/uart.o
+
+.comment        0x00000000       0x11
+ .comment       0x00000000       0x11 build/gpio.o
+                                 0x12 (size before relaxing)
+ .comment       0x00000000       0x12 build/main.o
+ .comment       0x00000000       0x12 build/system_timer.o
+ .comment       0x00000000       0x12 build/uart.o

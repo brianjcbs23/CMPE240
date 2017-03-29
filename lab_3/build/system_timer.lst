@@ -1,0 +1,99 @@
+   1              		.arch armv7-a
+   2              		.eabi_attribute 27, 3
+   3              		.eabi_attribute 28, 1
+   4              		.fpu neon-vfpv4
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"system_timer.c"
+  15              		.data
+  16              		.align	2
+  19              	sys_timer:
+  20 0000 0030003F 		.word	1056976896
+  21              		.text
+  22              		.align	2
+  23              		.global	timer_delay_us
+  25              	timer_delay_us:
+  26              		@ args = 0, pretend = 0, frame = 16
+  27              		@ frame_needed = 1, uses_anonymous_args = 0
+  28              		@ link register save eliminated.
+  29 0000 04B02DE5 		str	fp, [sp, #-4]!
+  30 0004 00B08DE2 		add	fp, sp, #0
+  31 0008 14D04DE2 		sub	sp, sp, #20
+  32 000c 10000BE5 		str	r0, [fp, #-16]
+  33 0010 003000E3 		movw	r3, #:lower16:sys_timer
+  34 0014 003040E3 		movt	r3, #:upper16:sys_timer
+  35 0018 003093E5 		ldr	r3, [r3, #0]
+  36 001c 043083E2 		add	r3, r3, #4
+  37 0020 003093E5 		ldr	r3, [r3, #0]
+  38 0024 08300BE5 		str	r3, [fp, #-8]
+  39 0028 08201BE5 		ldr	r2, [fp, #-8]
+  40 002c 10301BE5 		ldr	r3, [fp, #-16]
+  41 0030 033082E0 		add	r3, r2, r3
+  42 0034 08300BE5 		str	r3, [fp, #-8]
+  43 0038 003000E3 		movw	r3, #:lower16:sys_timer
+  44 003c 003040E3 		movt	r3, #:upper16:sys_timer
+  45 0040 003093E5 		ldr	r3, [r3, #0]
+  46 0044 0C3083E2 		add	r3, r3, #12
+  47 0048 08201BE5 		ldr	r2, [fp, #-8]
+  48 004c 002083E5 		str	r2, [r3, #0]
+  49 0050 003000E3 		movw	r3, #:lower16:sys_timer
+  50 0054 003040E3 		movt	r3, #:upper16:sys_timer
+  51 0058 002093E5 		ldr	r2, [r3, #0]
+  52 005c 003000E3 		movw	r3, #:lower16:sys_timer
+  53 0060 003040E3 		movt	r3, #:upper16:sys_timer
+  54 0064 003093E5 		ldr	r3, [r3, #0]
+  55 0068 003093E5 		ldr	r3, [r3, #0]
+  56 006c 013083E3 		orr	r3, r3, #1
+  57 0070 003082E5 		str	r3, [r2, #0]
+  58 0074 0000A0E1 		mov	r0, r0	@ nop
+  59              	.L2:
+  60 0078 003000E3 		movw	r3, #:lower16:sys_timer
+  61 007c 003040E3 		movt	r3, #:upper16:sys_timer
+  62 0080 003093E5 		ldr	r3, [r3, #0]
+  63 0084 003093E5 		ldr	r3, [r3, #0]
+  64 0088 013003E2 		and	r3, r3, #1
+  65 008c 000053E3 		cmp	r3, #0
+  66 0090 F8FFFF0A 		beq	.L2
+  67 0094 00D08BE2 		add	sp, fp, #0
+  68 0098 0008BDE8 		ldmfd	sp!, {fp}
+  69 009c 1EFF2FE1 		bx	lr
+  71              		.align	2
+  72              		.global	timer_delay_ms
+  74              	timer_delay_ms:
+  75              		@ args = 0, pretend = 0, frame = 8
+  76              		@ frame_needed = 1, uses_anonymous_args = 0
+  77 00a0 00482DE9 		stmfd	sp!, {fp, lr}
+  78 00a4 04B08DE2 		add	fp, sp, #4
+  79 00a8 08D04DE2 		sub	sp, sp, #8
+  80 00ac 08000BE5 		str	r0, [fp, #-8]
+  81 00b0 08301BE5 		ldr	r3, [fp, #-8]
+  82 00b4 FA2FA0E3 		mov	r2, #1000
+  83 00b8 920303E0 		mul	r3, r2, r3
+  84 00bc 0300A0E1 		mov	r0, r3
+  85 00c0 FEFFFFEB 		bl	timer_delay_us
+  86 00c4 04D04BE2 		sub	sp, fp, #4
+  87 00c8 0088BDE8 		ldmfd	sp!, {fp, pc}
+  89              		.align	2
+  90              		.global	timer_delay_sec
+  92              	timer_delay_sec:
+  93              		@ args = 0, pretend = 0, frame = 8
+  94              		@ frame_needed = 1, uses_anonymous_args = 0
+  95 00cc 00482DE9 		stmfd	sp!, {fp, lr}
+  96 00d0 04B08DE2 		add	fp, sp, #4
+  97 00d4 08D04DE2 		sub	sp, sp, #8
+  98 00d8 08000BE5 		str	r0, [fp, #-8]
+  99 00dc 08301BE5 		ldr	r3, [fp, #-8]
+ 100 00e0 FA2FA0E3 		mov	r2, #1000
+ 101 00e4 920303E0 		mul	r3, r2, r3
+ 102 00e8 0300A0E1 		mov	r0, r3
+ 103 00ec FEFFFFEB 		bl	timer_delay_ms
+ 104 00f0 04D04BE2 		sub	sp, fp, #4
+ 105 00f4 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 107              		.ident	"GCC: (GNU) 4.7.2"

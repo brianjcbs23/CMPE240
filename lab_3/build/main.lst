@@ -1,0 +1,145 @@
+   1              		.arch armv7-a
+   2              		.eabi_attribute 27, 3
+   3              		.eabi_attribute 28, 1
+   4              		.fpu neon-vfpv4
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 6
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"main.c"
+  15              		.data
+  16              		.align	2
+  19              	gpio:
+  20 0000 0000203F 		.word	1059061760
+  21              		.align	2
+  24              	sys_timer:
+  25 0004 0030003F 		.word	1056976896
+  26              		.align	2
+  29              	uart:
+  30 0008 0010203F 		.word	1059065856
+  31              		.section	.rodata
+  32              		.align	2
+  33              	.LC0:
+  34 0000 426C696E 		.ascii	"Blink\012\000\000"
+  34      6B0A0000 
+  35              		.text
+  36              		.align	2
+  37              		.global	blink_once
+  39              	blink_once:
+  40              		@ args = 0, pretend = 0, frame = 0
+  41              		@ frame_needed = 1, uses_anonymous_args = 0
+  42 0000 00482DE9 		stmfd	sp!, {fp, lr}
+  43 0004 04B08DE2 		add	fp, sp, #4
+  44 0008 003000E3 		movw	r3, #:lower16:gpio
+  45 000c 003040E3 		movt	r3, #:upper16:gpio
+  46 0010 003093E5 		ldr	r3, [r3, #0]
+  47 0014 1C2083E2 		add	r2, r3, #28
+  48 0018 003000E3 		movw	r3, #:lower16:gpio
+  49 001c 003040E3 		movt	r3, #:upper16:gpio
+  50 0020 003093E5 		ldr	r3, [r3, #0]
+  51 0024 1C3083E2 		add	r3, r3, #28
+  52 0028 003093E5 		ldr	r3, [r3, #0]
+  53 002c 023583E3 		orr	r3, r3, #8388608
+  54 0030 003082E5 		str	r3, [r2, #0]
+  55 0034 7D0FA0E3 		mov	r0, #500
+  56 0038 FEFFFFEB 		bl	timer_delay_ms
+  57 003c 003000E3 		movw	r3, #:lower16:gpio
+  58 0040 003040E3 		movt	r3, #:upper16:gpio
+  59 0044 003093E5 		ldr	r3, [r3, #0]
+  60 0048 282083E2 		add	r2, r3, #40
+  61 004c 003000E3 		movw	r3, #:lower16:gpio
+  62 0050 003040E3 		movt	r3, #:upper16:gpio
+  63 0054 003093E5 		ldr	r3, [r3, #0]
+  64 0058 283083E2 		add	r3, r3, #40
+  65 005c 003093E5 		ldr	r3, [r3, #0]
+  66 0060 023583E3 		orr	r3, r3, #8388608
+  67 0064 003082E5 		str	r3, [r2, #0]
+  68 0068 7D0FA0E3 		mov	r0, #500
+  69 006c FEFFFFEB 		bl	timer_delay_ms
+  70 0070 000000E3 		movw	r0, #:lower16:.LC0
+  71 0074 000040E3 		movt	r0, #:upper16:.LC0
+  72 0078 FEFFFFEB 		bl	put_string
+  73 007c 0088BDE8 		ldmfd	sp!, {fp, pc}
+  75              		.align	2
+  76              		.global	blink_code
+  78              	blink_code:
+  79              		@ args = 0, pretend = 0, frame = 16
+  80              		@ frame_needed = 1, uses_anonymous_args = 0
+  81 0080 00482DE9 		stmfd	sp!, {fp, lr}
+  82 0084 04B08DE2 		add	fp, sp, #4
+  83 0088 10D04DE2 		sub	sp, sp, #16
+  84 008c 10000BE5 		str	r0, [fp, #-16]
+  85 0090 0030A0E3 		mov	r3, #0
+  86 0094 08300BE5 		str	r3, [fp, #-8]
+  87 0098 030000EA 		b	.L3
+  88              	.L4:
+  89 009c FEFFFFEB 		bl	blink_once
+  90 00a0 08301BE5 		ldr	r3, [fp, #-8]
+  91 00a4 013083E2 		add	r3, r3, #1
+  92 00a8 08300BE5 		str	r3, [fp, #-8]
+  93              	.L3:
+  94 00ac 08201BE5 		ldr	r2, [fp, #-8]
+  95 00b0 10301BE5 		ldr	r3, [fp, #-16]
+  96 00b4 030052E1 		cmp	r2, r3
+  97 00b8 F7FFFF3A 		bcc	.L4
+  98 00bc 0500A0E3 		mov	r0, #5
+  99 00c0 FEFFFFEB 		bl	timer_delay_sec
+ 100 00c4 04D04BE2 		sub	sp, fp, #4
+ 101 00c8 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 103              		.section	.rodata
+ 104              		.align	2
+ 105              	.LC1:
+ 106 0008 52756E6E 		.ascii	"Running\012\000\000"
+ 106      696E670A 
+ 106      0000
+ 107 0012 0000     		.align	2
+ 108              	.LC2:
+ 109 0014 426C696E 		.ascii	"Blink sequence\012\000\000"
+ 109      6B207365 
+ 109      7175656E 
+ 109      63650A00 
+ 109      00
+ 110 0025 000000   		.text
+ 111              		.align	2
+ 112              		.global	main
+ 114              	main:
+ 115              		@ args = 0, pretend = 0, frame = 8
+ 116              		@ frame_needed = 1, uses_anonymous_args = 0
+ 117 00cc 00482DE9 		stmfd	sp!, {fp, lr}
+ 118 00d0 04B08DE2 		add	fp, sp, #4
+ 119 00d4 08D04DE2 		sub	sp, sp, #8
+ 120 00d8 003000E3 		movw	r3, #:lower16:gpio
+ 121 00dc 003040E3 		movt	r3, #:upper16:gpio
+ 122 00e0 003093E5 		ldr	r3, [r3, #0]
+ 123 00e4 083083E2 		add	r3, r3, #8
+ 124 00e8 012AA0E3 		mov	r2, #4096
+ 125 00ec 002083E5 		str	r2, [r3, #0]
+ 126 00f0 FEFFFFEB 		bl	init_uart
+ 127 00f4 0130A0E3 		mov	r3, #1
+ 128 00f8 08300BE5 		str	r3, [fp, #-8]
+ 129 00fc 000000E3 		movw	r0, #:lower16:.LC1
+ 130 0100 000040E3 		movt	r0, #:upper16:.LC1
+ 131 0104 FEFFFFEB 		bl	put_string
+ 132              	.L8:
+ 133 0108 000000E3 		movw	r0, #:lower16:.LC2
+ 134 010c 000040E3 		movt	r0, #:upper16:.LC2
+ 135 0110 FEFFFFEB 		bl	put_string
+ 136 0114 08301BE5 		ldr	r3, [fp, #-8]
+ 137 0118 0A0053E3 		cmp	r3, #10
+ 138 011c 0500008A 		bhi	.L6
+ 139 0120 08001BE5 		ldr	r0, [fp, #-8]
+ 140 0124 FEFFFFEB 		bl	blink_code
+ 141 0128 08301BE5 		ldr	r3, [fp, #-8]
+ 142 012c 013083E2 		add	r3, r3, #1
+ 143 0130 08300BE5 		str	r3, [fp, #-8]
+ 144 0134 F3FFFFEA 		b	.L8
+ 145              	.L6:
+ 146 0138 0130A0E3 		mov	r3, #1
+ 147 013c 08300BE5 		str	r3, [fp, #-8]
+ 148 0140 F0FFFFEA 		b	.L8
+ 150              		.ident	"GCC: (GNU) 4.7.2"
