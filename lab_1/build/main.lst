@@ -8,78 +8,35 @@
    8              		.eabi_attribute 24, 1
    9              		.eabi_attribute 25, 1
   10              		.eabi_attribute 26, 1
-  11              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 30, 2
   12              		.eabi_attribute 34, 1
   13              		.eabi_attribute 18, 4
   14              		.file	"main.c"
-  15              		.data
+  15              		.text
   16              		.align	2
-  19              	gpio:
-  20 0000 0000203F 		.word	1059061760
-  21              		.text
-  22              		.align	2
-  23              		.global	delay
-  25              	delay:
-  26              		@ args = 0, pretend = 0, frame = 8
-  27              		@ frame_needed = 1, uses_anonymous_args = 0
-  28              		@ link register save eliminated.
-  29 0000 04B02DE5 		str	fp, [sp, #-4]!
-  30 0004 00B08DE2 		add	fp, sp, #0
-  31 0008 0CD04DE2 		sub	sp, sp, #12
-  32 000c 08000BE5 		str	r0, [fp, #-8]
-  33 0010 020000EA 		b	.L2
-  34              	.L3:
-  35 0014 08301BE5 		ldr	r3, [fp, #-8]
-  36 0018 013043E2 		sub	r3, r3, #1
-  37 001c 08300BE5 		str	r3, [fp, #-8]
-  38              	.L2:
-  39 0020 08301BE5 		ldr	r3, [fp, #-8]
-  40 0024 000053E3 		cmp	r3, #0
-  41 0028 F9FFFF1A 		bne	.L3
-  42 002c 00D08BE2 		add	sp, fp, #0
-  43 0030 0008BDE8 		ldmfd	sp!, {fp}
-  44 0034 1EFF2FE1 		bx	lr
-  46              		.align	2
-  47              		.global	main
-  49              	main:
-  50              		@ args = 0, pretend = 0, frame = 0
-  51              		@ frame_needed = 1, uses_anonymous_args = 0
-  52 0038 00482DE9 		stmfd	sp!, {fp, lr}
-  53 003c 04B08DE2 		add	fp, sp, #4
-  54 0040 003000E3 		movw	r3, #:lower16:gpio
-  55 0044 003040E3 		movt	r3, #:upper16:gpio
-  56 0048 003093E5 		ldr	r3, [r3, #0]
-  57 004c 083083E2 		add	r3, r3, #8
-  58 0050 012AA0E3 		mov	r2, #4096
-  59 0054 002083E5 		str	r2, [r3, #0]
-  60              	.L5:
-  61 0058 003000E3 		movw	r3, #:lower16:gpio
-  62 005c 003040E3 		movt	r3, #:upper16:gpio
-  63 0060 003093E5 		ldr	r3, [r3, #0]
-  64 0064 1C2083E2 		add	r2, r3, #28
-  65 0068 003000E3 		movw	r3, #:lower16:gpio
-  66 006c 003040E3 		movt	r3, #:upper16:gpio
-  67 0070 003093E5 		ldr	r3, [r3, #0]
-  68 0074 1C3083E2 		add	r3, r3, #28
-  69 0078 003093E5 		ldr	r3, [r3, #0]
-  70 007c 023583E3 		orr	r3, r3, #8388608
-  71 0080 003082E5 		str	r3, [r2, #0]
-  72 0084 D8080BE3 		movw	r0, #47320
-  73 0088 050040E3 		movt	r0, 5
-  74 008c FEFFFFEB 		bl	delay
-  75 0090 003000E3 		movw	r3, #:lower16:gpio
-  76 0094 003040E3 		movt	r3, #:upper16:gpio
-  77 0098 003093E5 		ldr	r3, [r3, #0]
-  78 009c 282083E2 		add	r2, r3, #40
-  79 00a0 003000E3 		movw	r3, #:lower16:gpio
-  80 00a4 003040E3 		movt	r3, #:upper16:gpio
-  81 00a8 003093E5 		ldr	r3, [r3, #0]
-  82 00ac 283083E2 		add	r3, r3, #40
-  83 00b0 003093E5 		ldr	r3, [r3, #0]
-  84 00b4 023583E3 		orr	r3, r3, #8388608
-  85 00b8 003082E5 		str	r3, [r2, #0]
-  86 00bc D8080BE3 		movw	r0, #47320
-  87 00c0 050040E3 		movt	r0, 5
-  88 00c4 FEFFFFEB 		bl	delay
-  89 00c8 E2FFFFEA 		b	.L5
-  91              		.ident	"GCC: (GNU) 4.7.2"
+  17              		.global	delay
+  19              	delay:
+  20              		@ args = 0, pretend = 0, frame = 0
+  21              		@ frame_needed = 0, uses_anonymous_args = 0
+  22              		@ link register save eliminated.
+  23 0000 1EFF2FE1 		bx	lr
+  25              		.section	.text.startup,"ax",%progbits
+  26              		.align	2
+  27              		.global	main
+  29              	main:
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 0030A0E3 		mov	r3, #0
+  34 0004 203F43E3 		movt	r3, 16160
+  35 0008 012AA0E3 		mov	r2, #4096
+  36 000c 082083E5 		str	r2, [r3, #8]
+  37              	.L3:
+  38 0010 1C2093E5 		ldr	r2, [r3, #28]
+  39 0014 022582E3 		orr	r2, r2, #8388608
+  40 0018 1C2083E5 		str	r2, [r3, #28]
+  41 001c 282093E5 		ldr	r2, [r3, #40]
+  42 0020 022582E3 		orr	r2, r2, #8388608
+  43 0024 282083E5 		str	r2, [r3, #40]
+  44 0028 F8FFFFEA 		b	.L3
+  46              		.ident	"GCC: (GNU) 4.7.2"
