@@ -87,6 +87,9 @@ void printBE1(uint32_t i){
 }
 
 void printBE2(uint32_t i){
+	uint32_t F = BE2F(i);
+	uint32_t G = BE2G(i);
+
 	put_char(W(i) | 0x30);
 	put_string(" \0");
 	put_char(X(i) | 0x30);
@@ -95,28 +98,91 @@ void printBE2(uint32_t i){
 	put_string(" \0");
 	put_char(Z(i) | 0x30);
 	put_string(" | \0");
-	put_char(BE2F(i) | 0x30);
+	put_char(F | 0x30);
 	put_string(" \0");
-	put_char(BE2G(i) | 0x30);
+	put_char(G | 0x30);
 	put_string("\n\r\0");
+
+	if(F && G)
+	{
+		gpio[GPSET0] = 1 << 24;
+		gpio[GPSET0] = 1 << 19;
+
+	    timer_delay_ms(500);
+
+	    gpio[GPCLR0] = 1 << 24;
+	    gpio[GPCLR0] = 1 << 19;
+
+	    timer_delay_ms(500);
+	}
+	else if(F && !G)
+	{
+		gpio[GPSET0] = 1 << 24;
+
+	    timer_delay_ms(500);
+
+	    gpio[GPCLR0] = 1 << 24;
+
+	    timer_delay_ms(500);
+	}
+	else if(!F && G)
+	{
+		gpio[GPSET0] = 1 << 19;
+
+	    timer_delay_ms(500);
+
+	    gpio[GPCLR0] = 1 << 19;
+
+	    timer_delay_ms(500);
+	}
+	else{
+		timer_delay_ms(1000);
+	}
 }
 
 int main()
 {
 	init_uart();
+	gpio[GPFSEL1] |= (1 << 27);
+	gpio[GPFSEL2] |= (1 << 12);
 	
-	put_string("W X Y Z | F G - Equivalence 1\n\r\0");
-	uint32_t i = 0;
-	while(i < 16){
-		printBE1(i);
-		++i;
-	}
-	put_string("\n\r\0");
-	put_string("W X Y Z | F G - Equivalence 2\n\r\0");
-	i = 0;
-	while(i < 16){
-		printBE2(i);
-		++i;
+	while(1){
+		put_string("Welcome to Lab Exercise 4!\n\r1: Equivalence 1\n\r2: Equivalence 2\n\r\0");
+
+		char userInput [3];
+		get_string(userInput, 3);
+        char choice = userInput[0];
+
+		if(choice == 49) 		// 49 is ASCII for 1
+		{
+			put_string("W X Y Z | F G - Equivalence 1\n\r\0");
+			uint32_t i = 0;
+			while(i < 16){
+				printBE1(i);
+				++i;
+			}
+			put_string("\n\r\0");
+		}
+		else if(choice == 50) 	// 50 is ASCII for 2
+		{
+			put_string("W X Y Z | F G - Equivalence 2\n\r\0");
+			uint32_t i = 0;
+			while(i < 16){
+				printBE2(i);
+				++i;
+			}
+		}
+		else if(choice == 99)	// 99 is ASCII for c
+		{
+			int i = 0;
+			while(i < 25){
+				put_string("\n\r");
+				++i;
+			}
+		}
+		else{
+			put_string("Not a valid input\r\n");
+		}
 	}
     
     return 0;

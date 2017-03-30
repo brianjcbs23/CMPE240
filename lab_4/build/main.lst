@@ -585,142 +585,316 @@
  614              		.align	2
  615              		.global	printBE2
  617              	printBE2:
- 618              		@ args = 0, pretend = 0, frame = 8
+ 618              		@ args = 0, pretend = 0, frame = 16
  619              		@ frame_needed = 1, uses_anonymous_args = 0
  620 0780 00482DE9 		stmfd	sp!, {fp, lr}
  621 0784 04B08DE2 		add	fp, sp, #4
- 622 0788 08D04DE2 		sub	sp, sp, #8
- 623 078c 08000BE5 		str	r0, [fp, #-8]
- 624 0790 08001BE5 		ldr	r0, [fp, #-8]
- 625 0794 FEFFFFEB 		bl	W
- 626 0798 0030A0E1 		mov	r3, r0
- 627 079c 7330EFE6 		uxtb	r3, r3
- 628 07a0 303083E3 		orr	r3, r3, #48
- 629 07a4 7330EFE6 		uxtb	r3, r3
- 630 07a8 0300A0E1 		mov	r0, r3
- 631 07ac FEFFFFEB 		bl	put_char
- 632 07b0 000000E3 		movw	r0, #:lower16:.LC0
- 633 07b4 000040E3 		movt	r0, #:upper16:.LC0
- 634 07b8 FEFFFFEB 		bl	put_string
- 635 07bc 08001BE5 		ldr	r0, [fp, #-8]
- 636 07c0 FEFFFFEB 		bl	X
- 637 07c4 0030A0E1 		mov	r3, r0
- 638 07c8 7330EFE6 		uxtb	r3, r3
- 639 07cc 303083E3 		orr	r3, r3, #48
- 640 07d0 7330EFE6 		uxtb	r3, r3
- 641 07d4 0300A0E1 		mov	r0, r3
- 642 07d8 FEFFFFEB 		bl	put_char
- 643 07dc 000000E3 		movw	r0, #:lower16:.LC0
- 644 07e0 000040E3 		movt	r0, #:upper16:.LC0
- 645 07e4 FEFFFFEB 		bl	put_string
- 646 07e8 08001BE5 		ldr	r0, [fp, #-8]
- 647 07ec FEFFFFEB 		bl	Y
- 648 07f0 0030A0E1 		mov	r3, r0
- 649 07f4 7330EFE6 		uxtb	r3, r3
- 650 07f8 303083E3 		orr	r3, r3, #48
- 651 07fc 7330EFE6 		uxtb	r3, r3
- 652 0800 0300A0E1 		mov	r0, r3
- 653 0804 FEFFFFEB 		bl	put_char
- 654 0808 000000E3 		movw	r0, #:lower16:.LC0
- 655 080c 000040E3 		movt	r0, #:upper16:.LC0
- 656 0810 FEFFFFEB 		bl	put_string
- 657 0814 08001BE5 		ldr	r0, [fp, #-8]
- 658 0818 FEFFFFEB 		bl	Z
- 659 081c 0030A0E1 		mov	r3, r0
- 660 0820 7330EFE6 		uxtb	r3, r3
- 661 0824 303083E3 		orr	r3, r3, #48
- 662 0828 7330EFE6 		uxtb	r3, r3
- 663 082c 0300A0E1 		mov	r0, r3
- 664 0830 FEFFFFEB 		bl	put_char
- 665 0834 000000E3 		movw	r0, #:lower16:.LC1
- 666 0838 000040E3 		movt	r0, #:upper16:.LC1
- 667 083c FEFFFFEB 		bl	put_string
- 668 0840 08001BE5 		ldr	r0, [fp, #-8]
- 669 0844 FEFFFFEB 		bl	BE2F
- 670 0848 0030A0E1 		mov	r3, r0
- 671 084c 7330EFE6 		uxtb	r3, r3
- 672 0850 303083E3 		orr	r3, r3, #48
- 673 0854 7330EFE6 		uxtb	r3, r3
- 674 0858 0300A0E1 		mov	r0, r3
- 675 085c FEFFFFEB 		bl	put_char
- 676 0860 000000E3 		movw	r0, #:lower16:.LC0
- 677 0864 000040E3 		movt	r0, #:upper16:.LC0
- 678 0868 FEFFFFEB 		bl	put_string
- 679 086c 08001BE5 		ldr	r0, [fp, #-8]
- 680 0870 FEFFFFEB 		bl	BE2G
- 681 0874 0030A0E1 		mov	r3, r0
- 682 0878 7330EFE6 		uxtb	r3, r3
- 683 087c 303083E3 		orr	r3, r3, #48
+ 622 0788 10D04DE2 		sub	sp, sp, #16
+ 623 078c 10000BE5 		str	r0, [fp, #-16]
+ 624 0790 10001BE5 		ldr	r0, [fp, #-16]
+ 625 0794 FEFFFFEB 		bl	BE2F
+ 626 0798 08000BE5 		str	r0, [fp, #-8]
+ 627 079c 10001BE5 		ldr	r0, [fp, #-16]
+ 628 07a0 FEFFFFEB 		bl	BE2G
+ 629 07a4 0C000BE5 		str	r0, [fp, #-12]
+ 630 07a8 10001BE5 		ldr	r0, [fp, #-16]
+ 631 07ac FEFFFFEB 		bl	W
+ 632 07b0 0030A0E1 		mov	r3, r0
+ 633 07b4 7330EFE6 		uxtb	r3, r3
+ 634 07b8 303083E3 		orr	r3, r3, #48
+ 635 07bc 7330EFE6 		uxtb	r3, r3
+ 636 07c0 0300A0E1 		mov	r0, r3
+ 637 07c4 FEFFFFEB 		bl	put_char
+ 638 07c8 000000E3 		movw	r0, #:lower16:.LC0
+ 639 07cc 000040E3 		movt	r0, #:upper16:.LC0
+ 640 07d0 FEFFFFEB 		bl	put_string
+ 641 07d4 10001BE5 		ldr	r0, [fp, #-16]
+ 642 07d8 FEFFFFEB 		bl	X
+ 643 07dc 0030A0E1 		mov	r3, r0
+ 644 07e0 7330EFE6 		uxtb	r3, r3
+ 645 07e4 303083E3 		orr	r3, r3, #48
+ 646 07e8 7330EFE6 		uxtb	r3, r3
+ 647 07ec 0300A0E1 		mov	r0, r3
+ 648 07f0 FEFFFFEB 		bl	put_char
+ 649 07f4 000000E3 		movw	r0, #:lower16:.LC0
+ 650 07f8 000040E3 		movt	r0, #:upper16:.LC0
+ 651 07fc FEFFFFEB 		bl	put_string
+ 652 0800 10001BE5 		ldr	r0, [fp, #-16]
+ 653 0804 FEFFFFEB 		bl	Y
+ 654 0808 0030A0E1 		mov	r3, r0
+ 655 080c 7330EFE6 		uxtb	r3, r3
+ 656 0810 303083E3 		orr	r3, r3, #48
+ 657 0814 7330EFE6 		uxtb	r3, r3
+ 658 0818 0300A0E1 		mov	r0, r3
+ 659 081c FEFFFFEB 		bl	put_char
+ 660 0820 000000E3 		movw	r0, #:lower16:.LC0
+ 661 0824 000040E3 		movt	r0, #:upper16:.LC0
+ 662 0828 FEFFFFEB 		bl	put_string
+ 663 082c 10001BE5 		ldr	r0, [fp, #-16]
+ 664 0830 FEFFFFEB 		bl	Z
+ 665 0834 0030A0E1 		mov	r3, r0
+ 666 0838 7330EFE6 		uxtb	r3, r3
+ 667 083c 303083E3 		orr	r3, r3, #48
+ 668 0840 7330EFE6 		uxtb	r3, r3
+ 669 0844 0300A0E1 		mov	r0, r3
+ 670 0848 FEFFFFEB 		bl	put_char
+ 671 084c 000000E3 		movw	r0, #:lower16:.LC1
+ 672 0850 000040E3 		movt	r0, #:upper16:.LC1
+ 673 0854 FEFFFFEB 		bl	put_string
+ 674 0858 08301BE5 		ldr	r3, [fp, #-8]
+ 675 085c 7330EFE6 		uxtb	r3, r3
+ 676 0860 303083E3 		orr	r3, r3, #48
+ 677 0864 7330EFE6 		uxtb	r3, r3
+ 678 0868 0300A0E1 		mov	r0, r3
+ 679 086c FEFFFFEB 		bl	put_char
+ 680 0870 000000E3 		movw	r0, #:lower16:.LC0
+ 681 0874 000040E3 		movt	r0, #:upper16:.LC0
+ 682 0878 FEFFFFEB 		bl	put_string
+ 683 087c 0C301BE5 		ldr	r3, [fp, #-12]
  684 0880 7330EFE6 		uxtb	r3, r3
- 685 0884 0300A0E1 		mov	r0, r3
- 686 0888 FEFFFFEB 		bl	put_char
- 687 088c 000000E3 		movw	r0, #:lower16:.LC2
- 688 0890 000040E3 		movt	r0, #:upper16:.LC2
- 689 0894 FEFFFFEB 		bl	put_string
- 690 0898 04D04BE2 		sub	sp, fp, #4
- 691 089c 0088BDE8 		ldmfd	sp!, {fp, pc}
- 693              		.section	.rodata
- 694              		.align	2
- 695              	.LC3:
- 696 0010 57205820 		.ascii	"W X Y Z | F G - Equivalence 1\012\015\000\000"
- 696      59205A20 
- 696      7C204620 
- 696      47202D20 
- 696      45717569 
- 697 0031 000000   		.align	2
- 698              	.LC4:
- 699 0034 57205820 		.ascii	"W X Y Z | F G - Equivalence 2\012\015\000\000"
- 699      59205A20 
- 699      7C204620 
- 699      47202D20 
- 699      45717569 
- 700 0055 000000   		.text
- 701              		.align	2
- 702              		.global	main
- 704              	main:
- 705              		@ args = 0, pretend = 0, frame = 8
- 706              		@ frame_needed = 1, uses_anonymous_args = 0
- 707 08a0 00482DE9 		stmfd	sp!, {fp, lr}
- 708 08a4 04B08DE2 		add	fp, sp, #4
- 709 08a8 08D04DE2 		sub	sp, sp, #8
- 710 08ac FEFFFFEB 		bl	init_uart
- 711 08b0 000000E3 		movw	r0, #:lower16:.LC3
- 712 08b4 000040E3 		movt	r0, #:upper16:.LC3
- 713 08b8 FEFFFFEB 		bl	put_string
- 714 08bc 0030A0E3 		mov	r3, #0
- 715 08c0 08300BE5 		str	r3, [fp, #-8]
- 716 08c4 040000EA 		b	.L26
- 717              	.L27:
- 718 08c8 08001BE5 		ldr	r0, [fp, #-8]
- 719 08cc FEFFFFEB 		bl	printBE1
- 720 08d0 08301BE5 		ldr	r3, [fp, #-8]
- 721 08d4 013083E2 		add	r3, r3, #1
- 722 08d8 08300BE5 		str	r3, [fp, #-8]
- 723              	.L26:
- 724 08dc 08301BE5 		ldr	r3, [fp, #-8]
- 725 08e0 0F0053E3 		cmp	r3, #15
- 726 08e4 F7FFFF9A 		bls	.L27
- 727 08e8 000000E3 		movw	r0, #:lower16:.LC2
- 728 08ec 000040E3 		movt	r0, #:upper16:.LC2
- 729 08f0 FEFFFFEB 		bl	put_string
- 730 08f4 000000E3 		movw	r0, #:lower16:.LC4
- 731 08f8 000040E3 		movt	r0, #:upper16:.LC4
- 732 08fc FEFFFFEB 		bl	put_string
- 733 0900 0030A0E3 		mov	r3, #0
- 734 0904 08300BE5 		str	r3, [fp, #-8]
- 735 0908 040000EA 		b	.L28
- 736              	.L29:
- 737 090c 08001BE5 		ldr	r0, [fp, #-8]
- 738 0910 FEFFFFEB 		bl	printBE2
- 739 0914 08301BE5 		ldr	r3, [fp, #-8]
- 740 0918 013083E2 		add	r3, r3, #1
- 741 091c 08300BE5 		str	r3, [fp, #-8]
- 742              	.L28:
- 743 0920 08301BE5 		ldr	r3, [fp, #-8]
- 744 0924 0F0053E3 		cmp	r3, #15
- 745 0928 F7FFFF9A 		bls	.L29
- 746 092c 0030A0E3 		mov	r3, #0
- 747 0930 0300A0E1 		mov	r0, r3
- 748 0934 04D04BE2 		sub	sp, fp, #4
- 749 0938 0088BDE8 		ldmfd	sp!, {fp, pc}
- 751              		.ident	"GCC: (GNU) 4.7.2"
+ 685 0884 303083E3 		orr	r3, r3, #48
+ 686 0888 7330EFE6 		uxtb	r3, r3
+ 687 088c 0300A0E1 		mov	r0, r3
+ 688 0890 FEFFFFEB 		bl	put_char
+ 689 0894 000000E3 		movw	r0, #:lower16:.LC2
+ 690 0898 000040E3 		movt	r0, #:upper16:.LC2
+ 691 089c FEFFFFEB 		bl	put_string
+ 692 08a0 08301BE5 		ldr	r3, [fp, #-8]
+ 693 08a4 000053E3 		cmp	r3, #0
+ 694 08a8 1F00000A 		beq	.L25
+ 695 08ac 0C301BE5 		ldr	r3, [fp, #-12]
+ 696 08b0 000053E3 		cmp	r3, #0
+ 697 08b4 1C00000A 		beq	.L25
+ 698 08b8 003000E3 		movw	r3, #:lower16:gpio
+ 699 08bc 003040E3 		movt	r3, #:upper16:gpio
+ 700 08c0 003093E5 		ldr	r3, [r3, #0]
+ 701 08c4 1C3083E2 		add	r3, r3, #28
+ 702 08c8 0124A0E3 		mov	r2, #16777216
+ 703 08cc 002083E5 		str	r2, [r3, #0]
+ 704 08d0 003000E3 		movw	r3, #:lower16:gpio
+ 705 08d4 003040E3 		movt	r3, #:upper16:gpio
+ 706 08d8 003093E5 		ldr	r3, [r3, #0]
+ 707 08dc 1C3083E2 		add	r3, r3, #28
+ 708 08e0 0227A0E3 		mov	r2, #524288
+ 709 08e4 002083E5 		str	r2, [r3, #0]
+ 710 08e8 7D0FA0E3 		mov	r0, #500
+ 711 08ec FEFFFFEB 		bl	timer_delay_ms
+ 712 08f0 003000E3 		movw	r3, #:lower16:gpio
+ 713 08f4 003040E3 		movt	r3, #:upper16:gpio
+ 714 08f8 003093E5 		ldr	r3, [r3, #0]
+ 715 08fc 283083E2 		add	r3, r3, #40
+ 716 0900 0124A0E3 		mov	r2, #16777216
+ 717 0904 002083E5 		str	r2, [r3, #0]
+ 718 0908 003000E3 		movw	r3, #:lower16:gpio
+ 719 090c 003040E3 		movt	r3, #:upper16:gpio
+ 720 0910 003093E5 		ldr	r3, [r3, #0]
+ 721 0914 283083E2 		add	r3, r3, #40
+ 722 0918 0227A0E3 		mov	r2, #524288
+ 723 091c 002083E5 		str	r2, [r3, #0]
+ 724 0920 7D0FA0E3 		mov	r0, #500
+ 725 0924 FEFFFFEB 		bl	timer_delay_ms
+ 726 0928 2F0000EA 		b	.L24
+ 727              	.L25:
+ 728 092c 08301BE5 		ldr	r3, [fp, #-8]
+ 729 0930 000053E3 		cmp	r3, #0
+ 730 0934 1300000A 		beq	.L27
+ 731 0938 0C301BE5 		ldr	r3, [fp, #-12]
+ 732 093c 000053E3 		cmp	r3, #0
+ 733 0940 1000001A 		bne	.L27
+ 734 0944 003000E3 		movw	r3, #:lower16:gpio
+ 735 0948 003040E3 		movt	r3, #:upper16:gpio
+ 736 094c 003093E5 		ldr	r3, [r3, #0]
+ 737 0950 1C3083E2 		add	r3, r3, #28
+ 738 0954 0124A0E3 		mov	r2, #16777216
+ 739 0958 002083E5 		str	r2, [r3, #0]
+ 740 095c 7D0FA0E3 		mov	r0, #500
+ 741 0960 FEFFFFEB 		bl	timer_delay_ms
+ 742 0964 003000E3 		movw	r3, #:lower16:gpio
+ 743 0968 003040E3 		movt	r3, #:upper16:gpio
+ 744 096c 003093E5 		ldr	r3, [r3, #0]
+ 745 0970 283083E2 		add	r3, r3, #40
+ 746 0974 0124A0E3 		mov	r2, #16777216
+ 747 0978 002083E5 		str	r2, [r3, #0]
+ 748 097c 7D0FA0E3 		mov	r0, #500
+ 749 0980 FEFFFFEB 		bl	timer_delay_ms
+ 750 0984 180000EA 		b	.L24
+ 751              	.L27:
+ 752 0988 08301BE5 		ldr	r3, [fp, #-8]
+ 753 098c 000053E3 		cmp	r3, #0
+ 754 0990 1300001A 		bne	.L28
+ 755 0994 0C301BE5 		ldr	r3, [fp, #-12]
+ 756 0998 000053E3 		cmp	r3, #0
+ 757 099c 1000000A 		beq	.L28
+ 758 09a0 003000E3 		movw	r3, #:lower16:gpio
+ 759 09a4 003040E3 		movt	r3, #:upper16:gpio
+ 760 09a8 003093E5 		ldr	r3, [r3, #0]
+ 761 09ac 1C3083E2 		add	r3, r3, #28
+ 762 09b0 0227A0E3 		mov	r2, #524288
+ 763 09b4 002083E5 		str	r2, [r3, #0]
+ 764 09b8 7D0FA0E3 		mov	r0, #500
+ 765 09bc FEFFFFEB 		bl	timer_delay_ms
+ 766 09c0 003000E3 		movw	r3, #:lower16:gpio
+ 767 09c4 003040E3 		movt	r3, #:upper16:gpio
+ 768 09c8 003093E5 		ldr	r3, [r3, #0]
+ 769 09cc 283083E2 		add	r3, r3, #40
+ 770 09d0 0227A0E3 		mov	r2, #524288
+ 771 09d4 002083E5 		str	r2, [r3, #0]
+ 772 09d8 7D0FA0E3 		mov	r0, #500
+ 773 09dc FEFFFFEB 		bl	timer_delay_ms
+ 774 09e0 010000EA 		b	.L24
+ 775              	.L28:
+ 776 09e4 FA0FA0E3 		mov	r0, #1000
+ 777 09e8 FEFFFFEB 		bl	timer_delay_ms
+ 778              	.L24:
+ 779 09ec 04D04BE2 		sub	sp, fp, #4
+ 780 09f0 0088BDE8 		ldmfd	sp!, {fp, pc}
+ 782              		.section	.rodata
+ 783              		.align	2
+ 784              	.LC3:
+ 785 0010 57656C63 		.ascii	"Welcome to Lab Exercise 4!\012\0151: Equivalence 1\012"
+ 785      6F6D6520 
+ 785      746F204C 
+ 785      61622045 
+ 785      78657263 
+ 786 003d 0D323A20 		.ascii	"\0152: Equivalence 2\012\015\000\000"
+ 786      45717569 
+ 786      76616C65 
+ 786      6E636520 
+ 786      320A0D00 
+ 787 0052 0000     		.align	2
+ 788              	.LC4:
+ 789 0054 57205820 		.ascii	"W X Y Z | F G - Equivalence 1\012\015\000\000"
+ 789      59205A20 
+ 789      7C204620 
+ 789      47202D20 
+ 789      45717569 
+ 790 0075 000000   		.align	2
+ 791              	.LC5:
+ 792 0078 57205820 		.ascii	"W X Y Z | F G - Equivalence 2\012\015\000\000"
+ 792      59205A20 
+ 792      7C204620 
+ 792      47202D20 
+ 792      45717569 
+ 793 0099 000000   		.align	2
+ 794              	.LC6:
+ 795 009c 0A0D00   		.ascii	"\012\015\000"
+ 796 009f 00       		.align	2
+ 797              	.LC7:
+ 798 00a0 4E6F7420 		.ascii	"Not a valid input\015\012\000"
+ 798      61207661 
+ 798      6C696420 
+ 798      696E7075 
+ 798      740D0A00 
+ 799              		.text
+ 800              		.align	2
+ 801              		.global	main
+ 803              	main:
+ 804              		@ args = 0, pretend = 0, frame = 16
+ 805              		@ frame_needed = 1, uses_anonymous_args = 0
+ 806 09f4 00482DE9 		stmfd	sp!, {fp, lr}
+ 807 09f8 04B08DE2 		add	fp, sp, #4
+ 808 09fc 10D04DE2 		sub	sp, sp, #16
+ 809 0a00 FEFFFFEB 		bl	init_uart
+ 810 0a04 003000E3 		movw	r3, #:lower16:gpio
+ 811 0a08 003040E3 		movt	r3, #:upper16:gpio
+ 812 0a0c 003093E5 		ldr	r3, [r3, #0]
+ 813 0a10 042083E2 		add	r2, r3, #4
+ 814 0a14 003000E3 		movw	r3, #:lower16:gpio
+ 815 0a18 003040E3 		movt	r3, #:upper16:gpio
+ 816 0a1c 003093E5 		ldr	r3, [r3, #0]
+ 817 0a20 043083E2 		add	r3, r3, #4
+ 818 0a24 003093E5 		ldr	r3, [r3, #0]
+ 819 0a28 023383E3 		orr	r3, r3, #134217728
+ 820 0a2c 003082E5 		str	r3, [r2, #0]
+ 821 0a30 003000E3 		movw	r3, #:lower16:gpio
+ 822 0a34 003040E3 		movt	r3, #:upper16:gpio
+ 823 0a38 003093E5 		ldr	r3, [r3, #0]
+ 824 0a3c 082083E2 		add	r2, r3, #8
+ 825 0a40 003000E3 		movw	r3, #:lower16:gpio
+ 826 0a44 003040E3 		movt	r3, #:upper16:gpio
+ 827 0a48 003093E5 		ldr	r3, [r3, #0]
+ 828 0a4c 083083E2 		add	r3, r3, #8
+ 829 0a50 003093E5 		ldr	r3, [r3, #0]
+ 830 0a54 013A83E3 		orr	r3, r3, #4096
+ 831 0a58 003082E5 		str	r3, [r2, #0]
+ 832              	.L40:
+ 833 0a5c 000000E3 		movw	r0, #:lower16:.LC3
+ 834 0a60 000040E3 		movt	r0, #:upper16:.LC3
+ 835 0a64 FEFFFFEB 		bl	put_string
+ 836 0a68 14304BE2 		sub	r3, fp, #20
+ 837 0a6c 0300A0E1 		mov	r0, r3
+ 838 0a70 0310A0E3 		mov	r1, #3
+ 839 0a74 FEFFFFEB 		bl	get_string
+ 840 0a78 14305BE5 		ldrb	r3, [fp, #-20]
+ 841 0a7c 11304BE5 		strb	r3, [fp, #-17]
+ 842 0a80 11305BE5 		ldrb	r3, [fp, #-17]	@ zero_extendqisi2
+ 843 0a84 310053E3 		cmp	r3, #49
+ 844 0a88 1100001A 		bne	.L30
+ 845 0a8c 000000E3 		movw	r0, #:lower16:.LC4
+ 846 0a90 000040E3 		movt	r0, #:upper16:.LC4
+ 847 0a94 FEFFFFEB 		bl	put_string
+ 848 0a98 0030A0E3 		mov	r3, #0
+ 849 0a9c 08300BE5 		str	r3, [fp, #-8]
+ 850 0aa0 040000EA 		b	.L31
+ 851              	.L32:
+ 852 0aa4 08001BE5 		ldr	r0, [fp, #-8]
+ 853 0aa8 FEFFFFEB 		bl	printBE1
+ 854 0aac 08301BE5 		ldr	r3, [fp, #-8]
+ 855 0ab0 013083E2 		add	r3, r3, #1
+ 856 0ab4 08300BE5 		str	r3, [fp, #-8]
+ 857              	.L31:
+ 858 0ab8 08301BE5 		ldr	r3, [fp, #-8]
+ 859 0abc 0F0053E3 		cmp	r3, #15
+ 860 0ac0 F7FFFF9A 		bls	.L32
+ 861 0ac4 000000E3 		movw	r0, #:lower16:.LC2
+ 862 0ac8 000040E3 		movt	r0, #:upper16:.LC2
+ 863 0acc FEFFFFEB 		bl	put_string
+ 864 0ad0 E1FFFFEA 		b	.L40
+ 865              	.L30:
+ 866 0ad4 11305BE5 		ldrb	r3, [fp, #-17]	@ zero_extendqisi2
+ 867 0ad8 320053E3 		cmp	r3, #50
+ 868 0adc 0E00001A 		bne	.L34
+ 869 0ae0 000000E3 		movw	r0, #:lower16:.LC5
+ 870 0ae4 000040E3 		movt	r0, #:upper16:.LC5
+ 871 0ae8 FEFFFFEB 		bl	put_string
+ 872 0aec 0030A0E3 		mov	r3, #0
+ 873 0af0 0C300BE5 		str	r3, [fp, #-12]
+ 874 0af4 040000EA 		b	.L35
+ 875              	.L36:
+ 876 0af8 0C001BE5 		ldr	r0, [fp, #-12]
+ 877 0afc FEFFFFEB 		bl	printBE2
+ 878 0b00 0C301BE5 		ldr	r3, [fp, #-12]
+ 879 0b04 013083E2 		add	r3, r3, #1
+ 880 0b08 0C300BE5 		str	r3, [fp, #-12]
+ 881              	.L35:
+ 882 0b0c 0C301BE5 		ldr	r3, [fp, #-12]
+ 883 0b10 0F0053E3 		cmp	r3, #15
+ 884 0b14 F7FFFF9A 		bls	.L36
+ 885 0b18 130000EA 		b	.L33
+ 886              	.L34:
+ 887 0b1c 11305BE5 		ldrb	r3, [fp, #-17]	@ zero_extendqisi2
+ 888 0b20 630053E3 		cmp	r3, #99
+ 889 0b24 0C00001A 		bne	.L37
+ 890 0b28 0030A0E3 		mov	r3, #0
+ 891 0b2c 10300BE5 		str	r3, [fp, #-16]
+ 892 0b30 050000EA 		b	.L38
+ 893              	.L39:
+ 894 0b34 000000E3 		movw	r0, #:lower16:.LC6
+ 895 0b38 000040E3 		movt	r0, #:upper16:.LC6
+ 896 0b3c FEFFFFEB 		bl	put_string
+ 897 0b40 10301BE5 		ldr	r3, [fp, #-16]
+ 898 0b44 013083E2 		add	r3, r3, #1
+ 899 0b48 10300BE5 		str	r3, [fp, #-16]
+ 900              	.L38:
+ 901 0b4c 10301BE5 		ldr	r3, [fp, #-16]
+ 902 0b50 180053E3 		cmp	r3, #24
+ 903 0b54 F6FFFFDA 		ble	.L39
+ 904 0b58 030000EA 		b	.L33
+ 905              	.L37:
+ 906 0b5c 000000E3 		movw	r0, #:lower16:.LC7
+ 907 0b60 000040E3 		movt	r0, #:upper16:.LC7
+ 908 0b64 FEFFFFEB 		bl	put_string
+ 909 0b68 BBFFFFEA 		b	.L40
+ 910              	.L33:
+ 911 0b6c BAFFFFEA 		b	.L40
+ 913              		.ident	"GCC: (GNU) 4.7.2"
