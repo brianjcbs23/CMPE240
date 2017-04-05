@@ -1,0 +1,76 @@
+   1              		.arch armv7-a
+   2              		.eabi_attribute 27, 3
+   3              		.eabi_attribute 28, 1
+   4              		.fpu vfp
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 2
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"system_timer.c"
+  15              		.text
+  16              		.align	2
+  17              		.global	timer_delay_us
+  19              	timer_delay_us:
+  20              		@ args = 0, pretend = 0, frame = 0
+  21              		@ frame_needed = 0, uses_anonymous_args = 0
+  22              		@ link register save eliminated.
+  23 0000 033AA0E3 		mov	r3, #12288
+  24 0004 003F43E3 		movt	r3, 16128
+  25 0008 042093E5 		ldr	r2, [r3, #4]
+  26 000c 0110A0E3 		mov	r1, #1
+  27 0010 020080E0 		add	r0, r0, r2
+  28 0014 0C0083E5 		str	r0, [r3, #12]
+  29 0018 0320A0E1 		mov	r2, r3
+  30 001c 001083E5 		str	r1, [r3, #0]
+  31              	.L2:
+  32 0020 003092E5 		ldr	r3, [r2, #0]
+  33 0024 010013E3 		tst	r3, #1
+  34 0028 FCFFFF0A 		beq	.L2
+  35 002c 1EFF2FE1 		bx	lr
+  37              		.align	2
+  38              		.global	timer_delay_ms
+  40              	timer_delay_ms:
+  41              		@ args = 0, pretend = 0, frame = 0
+  42              		@ frame_needed = 0, uses_anonymous_args = 0
+  43              		@ link register save eliminated.
+  44 0030 033AA0E3 		mov	r3, #12288
+  45 0034 003F43E3 		movt	r3, 16128
+  46 0038 042093E5 		ldr	r2, [r3, #4]
+  47 003c FA1FA0E3 		mov	r1, #1000
+  48 0040 912020E0 		mla	r0, r1, r0, r2
+  49 0044 0110A0E3 		mov	r1, #1
+  50 0048 0C0083E5 		str	r0, [r3, #12]
+  51 004c 0320A0E1 		mov	r2, r3
+  52 0050 001083E5 		str	r1, [r3, #0]
+  53              	.L9:
+  54 0054 003092E5 		ldr	r3, [r2, #0]
+  55 0058 010013E3 		tst	r3, #1
+  56 005c FCFFFF0A 		beq	.L9
+  57 0060 1EFF2FE1 		bx	lr
+  59              		.align	2
+  60              		.global	timer_delay_sec
+  62              	timer_delay_sec:
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		@ link register save eliminated.
+  66 0064 033AA0E3 		mov	r3, #12288
+  67 0068 003F43E3 		movt	r3, 16128
+  68 006c 041093E5 		ldr	r1, [r3, #4]
+  69 0070 402204E3 		movw	r2, #16960
+  70 0074 0F2040E3 		movt	r2, 15
+  71 0078 921020E0 		mla	r0, r2, r0, r1
+  72 007c 0110A0E3 		mov	r1, #1
+  73 0080 0C0083E5 		str	r0, [r3, #12]
+  74 0084 0320A0E1 		mov	r2, r3
+  75 0088 001083E5 		str	r1, [r3, #0]
+  76              	.L15:
+  77 008c 003092E5 		ldr	r3, [r2, #0]
+  78 0090 010013E3 		tst	r3, #1
+  79 0094 FCFFFF0A 		beq	.L15
+  80 0098 1EFF2FE1 		bx	lr
+  82              		.ident	"GCC: (GNU) 4.7.2"

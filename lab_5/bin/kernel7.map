@@ -1,0 +1,120 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x00008000         0x00018000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/boot.o
+LOAD build/debug.o
+LOAD build/gpio.o
+LOAD build/main.o
+LOAD build/system_timer.o
+LOAD build/uart.o
+
+.text           0x00008000      0x578
+ *(.text*)
+ .text          0x00008000        0xc build/boot.o
+                0x00008000                _start
+ .text          0x0000800c      0x134 build/debug.o
+                0x0000800c                digit_to_char
+                0x00008038                convert
+                0x00008104                to_binary_str
+                0x00008118                to_hex_str
+                0x0000812c                to_decimal_str
+ .text          0x00008140       0x4c build/gpio.o
+                0x00008140                convert_pin_to_gpio
+                0x00008160                convert_gpio_to_pin
+                0x00008184                mmio_write
+ .text          0x0000818c       0x64 build/main.o
+                0x0000818c                blink_once
+                0x000081c4                blink_code
+ .text.startup  0x000081f0        0x8 build/main.o
+                0x000081f0                main
+ .text          0x000081f8       0x9c build/system_timer.o
+                0x000081f8                timer_delay_us
+                0x00008228                timer_delay_ms
+                0x0000825c                timer_delay_sec
+ .text          0x00008294      0x2e4 build/uart.o
+                0x00008294                wait_for_tx_slot
+                0x000082ac                wait_for_uart_idle
+                0x000082c4                wait_for_rx_slot
+                0x000082dc                wait_for_rx_has_char
+                0x000082f4                delay
+                0x00008328                init_uart
+                0x000083fc                get_char
+                0x00008430                put_char
+                0x00008460                put_string
+                0x000084bc                get_string
+
+.glue_7         0x00008578        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x00008578        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x00008578        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x00008578        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x00008578        0x0
+ .iplt          0x00000000        0x0 build/boot.o
+
+.bss            0x00008578        0x0
+ *(.bss*)
+ .bss           0x00008578        0x0 build/boot.o
+ .bss           0x00008578        0x0 build/debug.o
+ .bss           0x00008578        0x0 build/gpio.o
+ .bss           0x00008578        0x0 build/main.o
+ .bss           0x00008578        0x0 build/system_timer.o
+ .bss           0x00008578        0x0 build/uart.o
+
+.rodata         0x00008578        0x4
+ *(.rodata*)
+ .rodata.str1.4
+                0x00008578        0x4 build/uart.o
+
+.rel.dyn        0x0000857c        0x0
+ .rel.iplt      0x00000000        0x0 build/boot.o
+
+.data           0x0000857c       0x44
+ *(.data*)
+ .data          0x0000857c        0x0 build/boot.o
+ .data          0x0000857c        0x0 build/debug.o
+ .data          0x0000857c       0x44 build/gpio.o
+                0x0000857c                pin_to_gpio_array
+                0x000085a4                gpio_to_pin_array
+ .data          0x000085c0        0x0 build/main.o
+ .data          0x000085c0        0x0 build/system_timer.o
+ .data          0x000085c0        0x0 build/uart.o
+OUTPUT(build/output.elf elf32-littlearm)
+
+.igot.plt       0x000085c0        0x0
+ .igot.plt      0x00000000        0x0 build/boot.o
+
+.ARM.attributes
+                0x00000000       0x31
+ .ARM.attributes
+                0x00000000       0x14 build/boot.o
+ .ARM.attributes
+                0x00000014       0x35 build/debug.o
+ .ARM.attributes
+                0x00000049       0x35 build/gpio.o
+ .ARM.attributes
+                0x0000007e       0x35 build/main.o
+ .ARM.attributes
+                0x000000b3       0x35 build/system_timer.o
+ .ARM.attributes
+                0x000000e8       0x35 build/uart.o
+
+.comment        0x00000000       0x11
+ .comment       0x00000000       0x11 build/debug.o
+                                 0x12 (size before relaxing)
+ .comment       0x00000000       0x12 build/gpio.o
+ .comment       0x00000000       0x12 build/main.o
+ .comment       0x00000000       0x12 build/system_timer.o
+ .comment       0x00000000       0x12 build/uart.o
